@@ -1,4 +1,4 @@
-package com.sandy.common.junit.bus;
+package com.sandy.common.junit.bus.helper;
 
 import java.util.ArrayList;
 import java.util.Collections;

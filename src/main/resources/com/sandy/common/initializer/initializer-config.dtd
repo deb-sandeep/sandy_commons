@@ -1,0 +1,10 @@
+<!ELEMENT initializer-config (initializable)+>
+
+<!ELEMENT initializable      (property)*>
+<!ATTLIST initializable      class  CDATA #REQUIRED>
+
+<!ELEMENT property           (value)*>
+<!ATTLIST property           name   CDATA #REQUIRED
+                             value  CDATA #IMPLIED> 
+                                
+<!ELEMENT value              (#PCDATA)>

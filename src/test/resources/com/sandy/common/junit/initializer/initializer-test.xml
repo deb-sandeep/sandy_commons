@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE initializer-config PUBLIC "-//Initializer//DTD 1.0//EN" 
+                                    "http://localhost/dtd/initializer-config.dtd">
+                                  
+<initializer-config>
+
+    <initializable class="com.sandy.common.junit.initializer.helper.DummyInitializable">
+        <property name="intValue"      value="10"/>
+        <property name="booleanValue"  value="false"/>
+        <property name="privateString" value="privateValue"/>
+        <property name="listOfValues">
+            <value>One</value>
+            <value>Two</value>
+            <value>Three</value>
+        </property>
+    </initializable>
+
+</initializer-config>

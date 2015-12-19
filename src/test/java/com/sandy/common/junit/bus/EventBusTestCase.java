@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 
 import com.sandy.common.bus.EventBus ;
+import com.sandy.common.junit.bus.helper.MockEventSubscriber ;
 
 /**
  * This test case contains test for the {@link EventBus} class.
