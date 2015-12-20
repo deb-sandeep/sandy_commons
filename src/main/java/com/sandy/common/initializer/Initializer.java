@@ -81,7 +81,8 @@ public class Initializer {
 
         try {
             className = config.getString( "[@class]" ) ;
-            element   = ( Initializable )ReflectionUtil.createInstance( className.trim() ) ;
+            element   = ( Initializable )ReflectionUtil.createInstance( 
+                                                            className.trim() ) ;
 
             this.beanWrapper.setWrappedInstance( element ) ;
             final int numProps = config.getList( "property[@name]" ).size() ;

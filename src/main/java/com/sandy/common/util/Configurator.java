@@ -23,7 +23,12 @@ public class Configurator {
     private String confictResolutionStrategy = OVERIDE_ON_CONFLICT ;
     
     private Map<String, Object> configurableObjects  = new HashMap<String, Object>() ;
-    private List<URL> configResourceURLs             = new ArrayList<URL>() ;
+    private List<URL>           configResourceURLs   = new ArrayList<URL>() ;
+    private AbstractCLParser    cmdLine              = null ;
+    
+    public void setCommandLine( AbstractCLParser cmdLine ) {
+        this.cmdLine = cmdLine ;
+    }
     
     public String getConflictResolutionStrategy() {
         return this.confictResolutionStrategy ;
@@ -97,6 +102,10 @@ public class Configurator {
             String path   = key.substring( key.indexOf( '.' ) ) ;
             
             String qualifiedPath = "configurableObject(" + objKey + ")" + path ;
+            
+            if( value.startsWith( "clp:" ) ) {
+                value = beanUtils.getProperty( cmdLine, value.substring( 4 ) ) ;
+            }
             
             beanUtils.setProperty( this, qualifiedPath, value ) ;
         }

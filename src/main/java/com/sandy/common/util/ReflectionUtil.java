@@ -643,5 +643,9 @@ public class ReflectionUtil {
         retVal = clazz.newInstance() ;
         
         return retVal ;
-    }    
+    }  
+    
+    public static URL getResource( String path ) {
+        return ReflectionUtil.class.getResource( path ) ;
+    }
 }
