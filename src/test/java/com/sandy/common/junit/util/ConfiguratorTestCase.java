@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.* ;
 import org.junit.Before ;
 import org.junit.Test ;
 
+import com.sandy.common.junit.util.helper.DummyCLParser ;
 import com.sandy.common.junit.util.helper.DummyConfigurable ;
 import com.sandy.common.util.Configurator ;
 import com.sandy.common.util.ReflectionUtil ;
@@ -71,5 +72,25 @@ public class ConfiguratorTestCase {
         assertThat( obj.getName(), is( equalTo( "Sandeep" ) ) ) ;
         assertThat( obj.getAge(), is( equalTo( 10 ) ) ) ;
         assertThat( obj.getNested().getNestedProperty(), is( equalTo( "NestedValue" ) ) ) ;
+    }
+    
+    @Test
+    public void clpInjection() throws Exception {
+        
+        String[] args = { "-i", "--firstName=Sandeep" } ;
+        DummyCLParser cmdLine = new DummyCLParser() ;
+        cmdLine.parse( args ) ;
+        
+        DummyConfigurable obj = new DummyConfigurable() ;
+        URL url = ReflectionUtil.getTestConfigResource( 
+                                              ConfiguratorTestCase.class, 
+                                              "configurator-clp-test.properties" ) ;
+        
+        configurator.registerConfigResourceURL( url ) ;
+        configurator.registerConfigurableObject( "ObjA", obj ) ;
+        configurator.setCommandLine( cmdLine ) ;
+        configurator.initialize() ;
+        
+        assertThat( obj.isInteractive(), is( equalTo( true ) ) ) ;
     }
 }

@@ -5,7 +5,16 @@ public class DummyConfigurable {
     private String name = null ;
     private int age = 0 ;
     private NestedClass nested = new NestedClass() ;
+    private boolean interactive = false ;
     
+    public boolean isInteractive() {
+        return interactive ;
+    }
+
+    public void setInteractive( boolean interactive ) {
+        this.interactive = interactive ;
+    }
+
     public String getName() {
         return name;
     }
