@@ -10,8 +10,8 @@ import java.awt.event.MouseEvent ;
 import java.awt.event.MouseListener ;
 import java.awt.event.MouseMotionListener ;
 import java.awt.image.BufferedImage ;
-import java.util.Set ;
-import java.util.TreeSet ;
+import java.util.ArrayList ;
+import java.util.List ;
 
 import javax.swing.JTabbedPane ;
 import javax.swing.plaf.metal.MetalTabbedPaneUI ;
@@ -52,8 +52,7 @@ public class CloseableTabbedPane extends HighlightableTabbedPane {
         public void tabClosing( ActionEvent e ) ;
     }
     
-    private Set<TabCloseListener> listeners = 
-                         new TreeSet<CloseableTabbedPane.TabCloseListener>() ;
+    private List<TabCloseListener> listeners = new ArrayList<>() ;
     
     /**
      * This is the default constructor. This also adds an extended UI that
@@ -74,7 +73,9 @@ public class CloseableTabbedPane extends HighlightableTabbedPane {
     
     /** Adds a tab close listener to the list of existing listeners. */
     public void addTabCloseListener( TabCloseListener l ) {
-        this.listeners.add( l ) ;
+        if( !this.listeners.contains( l ) ) {
+            this.listeners.add( l ) ;
+        }
     }
     
     /** Removes the specified listener from the existing list of listeners. */

@@ -36,7 +36,9 @@ public abstract class AbstractMainFrame extends JFrame {
         
         super( title ) ;
         this.frameIcon = frameIcon ;
-        
+    }
+    
+    public final void setUp() throws Exception {
         setUpUI() ;
         setUpListeners() ;
     }
