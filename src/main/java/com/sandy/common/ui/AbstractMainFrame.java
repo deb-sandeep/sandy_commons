@@ -43,8 +43,9 @@ public abstract class AbstractMainFrame extends JFrame {
         setUpListeners() ;
     }
     
-    private void setUpUI() throws Exception 
-    {
+    private void setUpUI() throws Exception {
+        
+        setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE ) ;
         setMaximized( this ) ;
         
         Container contentPane = getContentPane() ;
