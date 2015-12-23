@@ -74,6 +74,10 @@ public class StateManager {
     
     public void loadState() throws Exception {
         
+        if( !stateFile.exists() ) {
+            return ;
+        }
+        
         Properties stateValues = new Properties() ;
         stateValues.load( new FileInputStream( stateFile ) ) ;
         
