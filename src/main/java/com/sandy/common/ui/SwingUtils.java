@@ -2,6 +2,7 @@ package com.sandy.common.ui;
 
 import static com.sandy.common.util.ReflectionUtil.getResource ;
 
+import java.awt.Component ;
 import java.awt.Dimension ;
 import java.awt.Image ;
 import java.awt.Toolkit ;
@@ -20,6 +21,14 @@ public class SwingUtils {
     public static void setMaximized( JFrame frame ) {
         Dimension screenSz = Toolkit.getDefaultToolkit().getScreenSize() ; 
         frame.setBounds( 0, 0, screenSz.width, screenSz.height ) ;
+    }
+    
+    public static void centerOnScreen( Component component, int width, int height ) {
+        
+        int x = getScreenWidth()/2 - width/2 ;
+        int y = getScreenHeight()/2 - height/2 ;
+        
+        component.setBounds( x, y, width, height ) ;
     }
     
     public static int getScreenWidth() {
