@@ -40,6 +40,14 @@ public class WorkspaceManager {
         return file ;
     }
     
+    public File getTempDir() {
+        File file = new File( this.workspaceDir, "temp" ) ;
+        if( !file.exists() ) {
+            file.mkdirs() ;
+        }
+        return file ;
+    }
+    
     public URL getFileURL( String relativePath ) {
         
         URL url =  null ;
