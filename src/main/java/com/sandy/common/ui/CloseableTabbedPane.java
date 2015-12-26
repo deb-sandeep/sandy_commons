@@ -1,5 +1,6 @@
 package com.sandy.common.ui ;
 
+import java.awt.Color ;
 import java.awt.Component ;
 import java.awt.Cursor ;
 import java.awt.FontMetrics ;
@@ -69,6 +70,7 @@ public class CloseableTabbedPane extends HighlightableTabbedPane {
                                      tabIndex, metrics ) + TAB_WIDTH_EXTENSION ;
             }
         }) ;
+        super.setForeground( Color.WHITE ) ;
     }
     
     /** Adds a tab close listener to the list of existing listeners. */

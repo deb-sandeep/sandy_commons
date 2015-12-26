@@ -26,7 +26,7 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
     private static final double MAX_SCALE = 2 ;
     static final Logger logger = Logger.getLogger( ScalableImagePanel.class ) ;
     
-    private JLabel  mapDisplay ;
+    private JLabel  imgLabel ;
     private JSlider slider = null ;
     
     private BufferedImage curImg = null ;
@@ -41,14 +41,15 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
     
     private void setUpUI() {
         
-        mapDisplay = new JLabel() ;
-        mapDisplay.setOpaque(true);
-        mapDisplay.setBackground( new Color(240, 240, 240) ) ;
-        mapDisplay.setHorizontalTextPosition( JLabel.LEFT ) ;
-        mapDisplay.setHorizontalAlignment( SwingConstants.CENTER ) ;
+        imgLabel = new JLabel() ;
+        imgLabel.setOpaque(true);
+        imgLabel.setBackground( new Color(240, 240, 240) ) ;
+        imgLabel.setHorizontalTextPosition( JLabel.LEFT ) ;
+        imgLabel.setHorizontalAlignment( SwingConstants.CENTER ) ;
         
-        JScrollPane displaySP = new JScrollPane( mapDisplay ) ;
+        JScrollPane displaySP = new JScrollPane( imgLabel ) ;
         displaySP.setBackground( Color.WHITE ) ;
+        displaySP.getVerticalScrollBar().setUnitIncrement( 10 ) ;
         
         slider = new JSlider( JSlider.VERTICAL ) ;
         slider.addChangeListener( this ) ;
@@ -80,7 +81,7 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
             if( scaleFactor != 1.0 ) {
                 scaledImg = getScaledImage() ;
             }
-            mapDisplay.setIcon( new ImageIcon( scaledImg ) ) ;
+            imgLabel.setIcon( new ImageIcon( scaledImg ) ) ;
         }
     }
 
