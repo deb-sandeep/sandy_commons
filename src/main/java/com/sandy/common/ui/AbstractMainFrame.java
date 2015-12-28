@@ -72,7 +72,7 @@ public abstract class AbstractMainFrame extends JFrame {
         }
     }
     
-    private void setUpListeners() {
+    protected void setUpListeners() {
         super.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 handleWindowClosing() ;
