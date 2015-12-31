@@ -105,8 +105,7 @@ public class Configurator {
             
             if( value.startsWith( "clp:" ) ) {
                 String clpKey = value.substring( "clp:".length() ) ;
-                logger.debug( "CLP key = " + clpKey ) ;
-                value = beanUtils.getProperty( cmdLine, value.substring( 4 ) ) ;
+                value = beanUtils.getProperty( cmdLine, clpKey ) ;
             }
             
             beanUtils.setProperty( this, qualifiedPath, value ) ;

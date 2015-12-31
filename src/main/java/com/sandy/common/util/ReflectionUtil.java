@@ -134,8 +134,14 @@ public class ReflectionUtil {
 
             for ( int i = 0; i < methods.length; i++ ) {
                 final Method method = methods[i] ;
-                if ( name.equals( method.getName() ) && 
-                     Arrays.equals( paramTypes,method.getParameterTypes() ) ) {
+                
+                if( paramTypes == null ) {
+                    if( name.equals( method.getName() ) ) {
+                        return method ;
+                    }
+                }
+                else if ( name.equals( method.getName() ) && 
+                     Arrays.equals( paramTypes, method.getParameterTypes() ) ) {
                     return method ; 
                 }
             }
