@@ -71,9 +71,18 @@ public class FuzzyScore {
                 final char termChar = termLowerCase.charAt(termIndex);
 
                 if (queryChar == termChar) {
-                    // simple character matches result in one point
-                    score++;
-
+                    
+                    // Enhancement - a case sensitive match results in higher
+                    // score than an insensitive match. Note - we are ignoring
+                    // locale.
+                    if( query.charAt( queryIndex ) == term.charAt( termIndex ) ) {
+                        score += 2 ;
+                    }
+                    else {
+                        // simple character matches result in one point
+                        score += 1 ;
+                    }
+                    
                     // subsequent character matches further improve
                     // the score.
                     if (previousMatchingCharacterIndex + 1 == termIndex) {
