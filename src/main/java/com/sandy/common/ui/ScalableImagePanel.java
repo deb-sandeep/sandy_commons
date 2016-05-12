@@ -2,14 +2,15 @@ package com.sandy.common.ui;
 
 import java.awt.BorderLayout ;
 import java.awt.Color ;
+import java.awt.Rectangle ;
 import java.awt.geom.AffineTransform ;
 import java.awt.image.AffineTransformOp ;
 import java.awt.image.BufferedImage ;
 import java.io.File ;
 import java.io.IOException ;
+import java.util.ArrayList ;
 
 import javax.imageio.ImageIO ;
-import javax.swing.ImageIcon ;
 import javax.swing.JLabel ;
 import javax.swing.JPanel ;
 import javax.swing.JScrollPane ;
@@ -21,27 +22,50 @@ import javax.swing.event.ChangeListener ;
 import org.apache.log4j.Logger ;
 
 public class ScalableImagePanel extends JPanel implements ChangeListener {
+    
+    public interface ScalableImagePanelListener {
+        public void subImageSelected( BufferedImage image ) ;
+    }
 
     private static final long serialVersionUID = 1L ;
     private static final double MAX_SCALE = 2 ;
     static final Logger logger = Logger.getLogger( ScalableImagePanel.class ) ;
     
-    private JLabel  imgLabel ;
+    private DrawingCanvas  imgLabel ;
     private JSlider slider = null ;
     
     private BufferedImage curImg = null ;
     private File curImgFile = null ;
     
     private double scaleFactor = 1.0 ;
+    
+    private ArrayList<ScalableImagePanelListener> listeners = 
+               new ArrayList<ScalableImagePanel.ScalableImagePanelListener>() ;
 
     public ScalableImagePanel() {
         super( new BorderLayout() ) ;
         setUpUI() ;
     }
     
+    public void addListener( ScalableImagePanelListener listener ) {
+        listeners.add( listener ) ;
+    }
+    
+    public void removeListener( ScalableImagePanelListener listener ) {
+        listeners.remove( listener ) ;
+    }
+    
+    void subImageSelected( Rect selRect ) {
+        Rectangle rect = selRect.getBounds() ;
+        BufferedImage subImage = curImg.getSubimage( rect.x, rect.y, rect.width, rect.height ) ;
+        for( ScalableImagePanelListener l : listeners ) {
+            l.subImageSelected( subImage );
+        }
+    }
+    
     private void setUpUI() {
         
-        imgLabel = new JLabel() ;
+        imgLabel = new DrawingCanvas( this ) ;
         imgLabel.setOpaque(true);
         imgLabel.setBackground( new Color(240, 240, 240) ) ;
         imgLabel.setHorizontalTextPosition( JLabel.LEFT ) ;
@@ -81,7 +105,7 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
             if( scaleFactor != 1.0 ) {
                 scaledImg = getScaledImage() ;
             }
-            imgLabel.setIcon( new ImageIcon( scaledImg ) ) ;
+            imgLabel.setImage( scaledImg, scaleFactor );
         }
     }
 
@@ -124,7 +148,8 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
         scaledImg = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB ) ;
         AffineTransform at = new AffineTransform() ;
         at.scale( this.scaleFactor, this.scaleFactor ) ;
-        AffineTransformOp scaleOp = new AffineTransformOp( at, AffineTransformOp.TYPE_BICUBIC ) ;
+        AffineTransformOp scaleOp = new AffineTransformOp( at, 
+                                              AffineTransformOp.TYPE_BICUBIC ) ;
         scaledImg = scaleOp.filter( curImg, scaledImg ) ;
         
         return scaledImg ;
