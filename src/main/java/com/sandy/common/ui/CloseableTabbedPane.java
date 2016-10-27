@@ -15,6 +15,7 @@ import java.util.ArrayList ;
 import java.util.List ;
 
 import javax.swing.JTabbedPane ;
+import javax.swing.plaf.basic.BasicTabbedPaneUI ;
 import javax.swing.plaf.metal.MetalTabbedPaneUI ;
 
 import org.apache.log4j.Logger ;
@@ -63,7 +64,7 @@ public class CloseableTabbedPane extends HighlightableTabbedPane {
      */
     public CloseableTabbedPane() {
         this.closeUI = new TabCloseImageUI( this ) ;
-        super.setUI( new MetalTabbedPaneUI() {
+        super.setUI( new BasicTabbedPaneUI() {
             protected int calculateTabWidth( int tabPlacement, int tabIndex, 
                                                          FontMetrics metrics ) {
                 return super.calculateTabWidth( tabPlacement, 
