@@ -89,7 +89,8 @@ public class Configurator {
         PropertiesConfiguration configProperties = new PropertiesConfiguration() ;
         BeanUtilsBean           beanUtils        = new BeanUtilsBean() ;
         
-        for( URL url : this.configResourceURLs ) {
+        for( int i=configResourceURLs.size()-1; i>=0; i-- ) {
+        	URL url = configResourceURLs.get( i ) ;
             configProperties.load( url ) ;
         }
         
