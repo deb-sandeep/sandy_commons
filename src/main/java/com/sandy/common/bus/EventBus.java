@@ -60,7 +60,14 @@ public class EventBus {
                                          EventSubscriber subscriber ) {
         
         for( EventSubscriber aSubscriberInList : subscribers ) {
-            if( aSubscriberInList.equals( subscriber ) ) {
+            if( aSubscriberInList instanceof AsyncEventDispatchProxy ) {
+                AsyncEventDispatchProxy proxy = null ;
+                proxy = ( AsyncEventDispatchProxy )aSubscriberInList ;
+                if( proxy.getSubscriber().equals( subscriber ) ) {
+                    return true ;
+                }
+            }
+            else if( aSubscriberInList.equals( subscriber ) ) {
                 return true ;
             }
         }
