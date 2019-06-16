@@ -12,9 +12,12 @@ import java.util.ArrayList ;
 
 import javax.swing.JLabel ;
 
+import org.apache.log4j.Logger ;
+
 public class DrawingCanvas extends JLabel {
     
     private static final long serialVersionUID = -5864412396440506797L;
+    private static final Logger log = Logger.getLogger( DrawingCanvas.class ) ;
     
     protected ArrayList<Rect> allShapes ; 
     protected Rect selectedShape ; 
@@ -160,9 +163,14 @@ public class DrawingCanvas extends JLabel {
 
         @Override
         public void mouseReleased( MouseEvent e ) {
-            if( selectedShape != null ) {
-                parent.subImageSelected( selectedShape);
-                delete() ;
+            try {
+                if( selectedShape != null ) {
+                    parent.subImageSelected( selectedShape);
+                    delete() ;
+                }
+            }
+            catch( Exception e1 ) {
+                log.error( "Raster exception.", e1 ) ;
             }
         }
     }
