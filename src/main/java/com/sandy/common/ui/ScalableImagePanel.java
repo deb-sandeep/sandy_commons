@@ -6,6 +6,7 @@ import java.awt.Rectangle ;
 import java.awt.geom.AffineTransform ;
 import java.awt.image.AffineTransformOp ;
 import java.awt.image.BufferedImage ;
+import java.awt.image.RasterFormatException ;
 import java.io.File ;
 import java.io.IOException ;
 import java.util.ArrayList ;
@@ -57,9 +58,14 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
     
     void subImageSelected( Rect selRect ) {
         Rectangle rect = selRect.getBounds() ;
-        BufferedImage subImage = curImg.getSubimage( rect.x, rect.y, rect.width, rect.height ) ;
-        for( ScalableImagePanelListener l : listeners ) {
-            l.subImageSelected( subImage );
+        try {
+            BufferedImage subImage = curImg.getSubimage( rect.x, rect.y, rect.width, rect.height ) ;
+            for( ScalableImagePanelListener l : listeners ) {
+                l.subImageSelected( subImage );
+            }
+        }
+        catch( RasterFormatException e ) {
+            // Ignore
         }
     }
     
