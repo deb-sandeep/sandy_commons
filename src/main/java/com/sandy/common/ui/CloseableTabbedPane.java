@@ -7,6 +7,8 @@ import java.awt.FontMetrics ;
 import java.awt.Graphics ;
 import java.awt.Rectangle ;
 import java.awt.event.ActionEvent ;
+import java.awt.event.KeyAdapter ;
+import java.awt.event.KeyEvent ;
 import java.awt.event.MouseEvent ;
 import java.awt.event.MouseListener ;
 import java.awt.event.MouseMotionListener ;
@@ -71,7 +73,36 @@ public class CloseableTabbedPane extends HighlightableTabbedPane {
                                      tabIndex, metrics ) + TAB_WIDTH_EXTENSION ;
             }
         }) ;
+        addCtrlWListenerForTabClose() ;
         super.setForeground( Color.WHITE ) ;
+    }
+    
+    private void addCtrlWListenerForTabClose() {
+        
+        this.addKeyListener( new KeyAdapter() {
+            public void keyTyped( KeyEvent e ) {
+                if( e.getKeyChar() == 'w' && 
+                    ( e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK ) == KeyEvent.CTRL_DOWN_MASK ) {
+
+                    int selIndex = CloseableTabbedPane.this.getSelectedIndex() ;
+                    if( selIndex == -1 ) return ;
+                    
+                    boolean okToCloseTab = true ;
+                    Component comp = getComponentAt( selIndex ) ;
+                    if( comp instanceof CloseableTab ) {
+                        CloseableTab tab = ( CloseableTab )comp ;
+                        if( !tab.isOkToCloseTab() ) {
+                            okToCloseTab = false ;
+                        }
+                    }
+                    
+                    if( okToCloseTab ) {
+                        CloseableTabbedPane.this.notifyListeners( selIndex, TAB_CLOSING ) ;
+                        CloseableTabbedPane.this.remove( selIndex ) ;
+                    }
+                }
+            }
+        } ) ;
     }
     
     /** Adds a tab close listener to the list of existing listeners. */
