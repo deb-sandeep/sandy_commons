@@ -19,12 +19,17 @@ public class DrawingCanvas extends JLabel {
     private static final long serialVersionUID = -5864412396440506797L;
     private static final Logger log = Logger.getLogger( DrawingCanvas.class ) ;
     
+    private static final int DRAG_NONE   = 0 ;
+    private static final int DRAG_CREATE = 1 ;
+    private static final int DRAG_RESIZE = 2 ;
+    private static final int DRAG_MOVE   = 3 ;
+    
     protected ArrayList<Rect> allShapes ; 
     protected Rect selectedShape ; 
     
     private BufferedImage scaledImg   = null ;
     private double scaleFactor = 1.0f ;
-    private int currentMode = CanvasMouseHandler.DRAG_CREATE ;
+    private int currentMode = DRAG_CREATE ;
     private ScalableImagePanel parent = null ;
     
     public DrawingCanvas( ScalableImagePanel parent ) {
@@ -35,7 +40,7 @@ public class DrawingCanvas extends JLabel {
         
         setBackground( Color.white ) ;
         
-        CanvasMouseHandler handler = new CanvasMouseHandler() ;
+        CanvasMouseHandler2 handler = new CanvasMouseHandler2() ;
         addMouseListener( handler ) ;
         addMouseMotionListener( handler ) ;
     }
@@ -106,11 +111,6 @@ public class DrawingCanvas extends JLabel {
     protected class CanvasMouseHandler 
         extends MouseAdapter implements MouseMotionListener {
         
-        static final int DRAG_NONE   = 0 ;
-        static final int DRAG_CREATE = 1 ;
-        static final int DRAG_RESIZE = 2 ;
-        static final int DRAG_MOVE   = 3 ;
-        
         Point dragAnchor ; 
         int dragStatus ;
 
@@ -173,5 +173,90 @@ public class DrawingCanvas extends JLabel {
                 log.error( "Raster exception.", e1 ) ;
             }
         }
+    }
+
+    protected class CanvasMouseHandler2 
+        extends MouseAdapter implements MouseMotionListener {
+        
+        Point dragAnchor ; 
+        int dragStatus ;
+        
+        boolean inMarkMode = false ;
+    
+        public void mousePressed( MouseEvent event ) {
+
+            if( !inMarkMode ) {
+                inMarkMode = true ;
+                markStarted( event );
+            }
+            else {
+                inMarkMode = false ;
+                markEnded( event ) ;
+            }
+        }
+        
+        private void markStarted( MouseEvent event ) {
+            
+            Rect clicked = null ;
+            Point curPt = event.getPoint() ;
+    
+            if( currentMode != DRAG_CREATE ) {
+                if( selectedShape != null && 
+                    ( dragAnchor = selectedShape.getAnchorForResize( curPt ) ) != null) {
+                    dragStatus = DRAG_RESIZE ; // drag will resize this shape
+                } 
+                else if( (clicked = shapeContainingPoint(curPt)) != null) { 
+                    setSelectedShape( clicked ) ;
+                    dragStatus = DRAG_MOVE ; 
+                    dragAnchor = curPt ;
+                } 
+                else { 
+                    setSelectedShape( null ) ;
+                    dragStatus = DRAG_NONE ;
+                }
+            } 
+            else {
+                Rect newShape = new Rect( curPt, DrawingCanvas.this ) ; 
+                allShapes.add( newShape ) ;
+                setSelectedShape( newShape ) ;
+                dragStatus = DRAG_CREATE ; 
+                dragAnchor = curPt ;
+            }
+        }
+        
+        private void markEnded( MouseEvent event ) {
+            
+            try {
+                if( selectedShape != null ) {
+                    parent.subImageSelected( selectedShape);
+                    delete() ;
+                }
+            }
+            catch( Exception e1 ) {
+                log.error( "Raster exception.", e1 ) ;
+            }
+        }
+    
+        @Override
+        public void mouseMoved( MouseEvent event ) {
+            
+            if( inMarkMode ) {
+                
+                Point curPt = event.getPoint() ;
+                switch (dragStatus) {
+                    case DRAG_MOVE:
+                        selectedShape.translate( curPt.x - dragAnchor.x, 
+                                                 curPt.y - dragAnchor.y) ;
+                        dragAnchor = curPt ; 
+                        break ;
+                        
+                    case DRAG_CREATE:
+                    case DRAG_RESIZE:
+                        selectedShape.resize( dragAnchor, curPt ) ;
+                        break ;
+                }
+            }
+        }
+
     }
 }
