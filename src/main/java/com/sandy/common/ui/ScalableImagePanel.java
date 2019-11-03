@@ -25,7 +25,7 @@ import org.apache.log4j.Logger ;
 public class ScalableImagePanel extends JPanel implements ChangeListener {
     
     public interface ScalableImagePanelListener {
-        public void subImageSelected( BufferedImage image ) ;
+        public void subImageSelected( BufferedImage image, int selectionModifier ) ;
     }
 
     private static final long serialVersionUID = 1L ;
@@ -56,12 +56,12 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
         listeners.remove( listener ) ;
     }
     
-    void subImageSelected( Rect selRect ) {
+    void subImageSelected( Rect selRect, int selectionModifier ) {
         Rectangle rect = selRect.getBounds() ;
         try {
             BufferedImage subImage = curImg.getSubimage( rect.x, rect.y, rect.width, rect.height ) ;
             for( ScalableImagePanelListener l : listeners ) {
-                l.subImageSelected( subImage );
+                l.subImageSelected( subImage, selectionModifier );
             }
         }
         catch( RasterFormatException e ) {

@@ -24,6 +24,10 @@ public class DrawingCanvas extends JLabel {
     private static final int DRAG_RESIZE = 2 ;
     private static final int DRAG_MOVE   = 3 ;
     
+    public static final int MARK_END_MODIFIER_LEFT_BTN   = 1 ;
+    public static final int MARK_END_MODIFIER_CENTER_BTN = 2 ;
+    public static final int MARK_END_MODIFIER_RIGHT_BTN  = 3 ;
+    
     protected ArrayList<Rect> allShapes ; 
     protected Rect selectedShape ; 
     
@@ -165,7 +169,7 @@ public class DrawingCanvas extends JLabel {
         public void mouseReleased( MouseEvent e ) {
             try {
                 if( selectedShape != null ) {
-                    parent.subImageSelected( selectedShape);
+                    parent.subImageSelected( selectedShape, e.getButton() ) ;
                     delete() ;
                 }
             }
@@ -228,7 +232,7 @@ public class DrawingCanvas extends JLabel {
             
             try {
                 if( selectedShape != null ) {
-                    parent.subImageSelected( selectedShape);
+                    parent.subImageSelected( selectedShape, event.getButton() ) ;
                     delete() ;
                 }
             }
