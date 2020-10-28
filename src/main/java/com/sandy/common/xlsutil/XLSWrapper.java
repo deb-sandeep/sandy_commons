@@ -63,12 +63,21 @@ public class XLSWrapper {
             }
             
             Sheet sheet = getSheet( workbook, sheetName ) ;
+            int numPhyCols = sheet.getRow( startRow ).getLastCellNum() ;
+            
+            if( endCol == -1 || endCol > numPhyCols ) {
+                endCol = numPhyCols-1 ;
+            }
+            
             XLSSheetConfig sheetConfig = new XLSSheetConfig( sheet, startRow, 
                                                              startCol, endCol ) ;
             
             for( int i=startRow+1; i<=sheetConfig.getNumRows(); i++ ) {
-                List<String> cellValues = XLSUtil.getCellValues( sheet.getRow( i ), startCol, endCol ) ;
-                XLSRow row = new XLSRow( cellValues, sheetConfig ) ;
+                List<String> cellValues = null ;
+                XLSRow row = null ;
+                
+                cellValues = XLSUtil.getCellValues( sheet.getRow( i ), startCol, endCol ) ;
+                row = new XLSRow( cellValues, sheetConfig ) ;
                 if( ( filter == null ) || 
                     ( filter != null && filter.accept( row ) ) ) {
                     sheetConfig.updateColSize( row ) ;
