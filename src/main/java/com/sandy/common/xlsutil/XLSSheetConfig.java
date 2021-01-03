@@ -8,9 +8,6 @@ import java.util.Map ;
 import org.apache.commons.lang.StringUtils ;
 import org.apache.poi.ss.usermodel.Sheet ;
 
-import com.sandy.common.xlsutil.XLSRow ;
-import com.sandy.common.xlsutil.XLSUtil ;
-
 public class XLSSheetConfig {
     
     private String sheetName = "" ;

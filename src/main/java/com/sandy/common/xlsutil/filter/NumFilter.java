@@ -1,7 +1,6 @@
 package com.sandy.common.xlsutil.filter;
 
 import com.sandy.common.xlsutil.XLSRow ;
-import com.sandy.common.xlsutil.filter.AbstractColFilter ;
 
 public class NumFilter extends AbstractColFilter {
     

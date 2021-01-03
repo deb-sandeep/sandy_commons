@@ -1,8 +1,5 @@
 package com.sandy.common.xlsutil;
 
-import com.sandy.common.xlsutil.XLSRow ;
-import com.sandy.common.xlsutil.XLSRowFilter ;
-
 public interface XLSRowFilter {
     
     abstract static class BinaryLogicFilter implements XLSRowFilter {

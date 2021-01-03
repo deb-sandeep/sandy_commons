@@ -4,8 +4,6 @@ import java.util.List ;
 
 import org.apache.commons.lang.StringUtils ;
 
-import com.sandy.common.xlsutil.XLSSheetConfig ;
-
 public class XLSRow {
     
     private XLSSheetConfig config = null ;

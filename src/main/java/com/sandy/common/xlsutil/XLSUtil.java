@@ -8,10 +8,6 @@ import org.apache.poi.ss.usermodel.Cell ;
 import org.apache.poi.ss.usermodel.CellType ;
 import org.apache.poi.ss.usermodel.Row ;
 
-import com.sandy.common.xlsutil.XLSRow ;
-import com.sandy.common.xlsutil.XLSSheetConfig ;
-import com.sandy.common.xlsutil.XLSUtil ;
-
 public class XLSUtil {
     
     private static final Logger log = Logger.getLogger( XLSUtil.class ) ;
