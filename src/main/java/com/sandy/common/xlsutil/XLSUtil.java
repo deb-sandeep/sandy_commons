@@ -16,7 +16,7 @@ public class XLSUtil {
     
     private static final Logger log = Logger.getLogger( XLSUtil.class ) ;
     
-    static List<String> getCellValues( Row row, int startCol, int endCol ) {
+    public static List<String> getCellValues( Row row, int startCol, int endCol ) {
         
         List<String> cellValues = new ArrayList<>() ;
         
