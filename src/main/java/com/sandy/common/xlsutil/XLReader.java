@@ -36,8 +36,78 @@ public class XLReader {
                 cellValues = XLSUtil.getCellValues( sheet.getRow( i ), startCol, endCol ) ;
                 rows.add( cellValues ) ;
             }
-        } finally {
-            fIs.close() ;
+        } 
+        finally {
+            if( fIs != null ) {
+                fIs.close() ;
+            }
+        }
+
+        return rows ;
+    }
+    
+    public List<List<String>> getRows( File file, String sheetName, 
+                                       int startRow, int startCol, int endCol,
+                                       String... filteredColNames ) 
+        throws Exception {
+        
+        List<List<String>> rows = new ArrayList<>() ;
+        Workbook           workbook = null ;
+        FileInputStream    fIs = null ;
+        List<String>       colNames = null ;
+        boolean[]          selectedColFlags = null ;
+
+        try {
+            fIs = new FileInputStream( file ) ;
+            workbook = new XSSFWorkbook( fIs ) ;
+
+            Sheet sheet = getSheet( workbook, sheetName ) ;
+            int numPhyCols = sheet.getRow( startRow ).getLastCellNum() ;
+            int numRows = sheet.getLastRowNum() ;
+
+            if( endCol == -1 || endCol > numPhyCols ) {
+                endCol = numPhyCols - 1 ;
+            }
+            
+            colNames = XLSUtil.getCellValues( sheet.getRow( startRow ), startCol, endCol ) ;
+            selectedColFlags = new boolean[ colNames.size() ] ;
+            
+            for( int i=0; i<colNames.size(); i++ ) {
+                if( filteredColNames == null ) {
+                    selectedColFlags[i] = true ;
+                }
+                else {
+                    String colName = colNames.get( i ) ;
+                    for( String filteredColName : filteredColNames ) {
+                        if( colName.trim().equals( filteredColName.trim() ) ) {
+                            selectedColFlags[i] = true ;
+                        }
+                        else {
+                            selectedColFlags[i] = false ;
+                        }
+                    }
+                }
+            }
+
+            for ( int i = startRow + 1; i<= numRows; i++ ) {
+                List<String> cellValues = null ;
+                List<String> selectedCellValues = new ArrayList<>() ;
+                
+                cellValues = XLSUtil.getCellValues( sheet.getRow( i ), startCol, endCol ) ;
+                
+                for( int j=0; j<selectedColFlags.length; j++ ) {
+                    if( selectedColFlags[j] ) {
+                        selectedCellValues.add( cellValues.get( j ) ) ;
+                    }
+                }
+                
+                rows.add( selectedCellValues ) ;
+            }
+        } 
+        finally {
+            if( fIs != null ) {
+                fIs.close() ;
+            }
         }
 
         return rows ;
@@ -48,7 +118,8 @@ public class XLReader {
         Sheet sheet = null ;
         if( sheetName != null ) {
             sheet = workbook.getSheet( sheetName ) ;
-        } else {
+        } 
+        else {
             sheet = workbook.getSheetAt( 0 ) ;
         }
         return sheet ;
