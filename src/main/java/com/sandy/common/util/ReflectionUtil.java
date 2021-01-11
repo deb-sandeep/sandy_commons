@@ -639,6 +639,7 @@ public class ReflectionUtil {
         return matches.get( 0 ) ;
     }
     
+    @SuppressWarnings( "deprecation" )
     public static Object createInstance( final String className ) 
         throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         

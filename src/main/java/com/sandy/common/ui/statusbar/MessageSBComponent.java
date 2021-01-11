@@ -6,9 +6,6 @@ import javax.swing.JLabel ;
 
 import org.apache.log4j.Logger ;
 
-import com.sandy.common.ui.statusbar.AbstractSBComponent ;
-import com.sandy.common.ui.statusbar.ClockSBComponent ;
-
 public class MessageSBComponent extends AbstractSBComponent {
 
     private static final long serialVersionUID = -7087385729013001309L ;
