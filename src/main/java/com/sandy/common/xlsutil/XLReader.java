@@ -82,9 +82,6 @@ public class XLReader {
                         if( colName.trim().equals( filteredColName.trim() ) ) {
                             selectedColFlags[i] = true ;
                         }
-                        else {
-                            selectedColFlags[i] = false ;
-                        }
                     }
                 }
             }
