@@ -33,6 +33,7 @@ public class XLSSheetConfig {
     private void populateColNames( Sheet sheet ) {
         this.colNames = XLSUtil.getCellValues( sheet.getRow( startRow ), 
                                                startCol, endCol ) ;
+        this.colNames.removeAll( java.util.Collections.singletonList( null ) ) ;
         this.numCols = this.colNames.size() ;
         
         int index = 0 ;
