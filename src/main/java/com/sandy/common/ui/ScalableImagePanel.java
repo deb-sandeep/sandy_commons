@@ -2,6 +2,7 @@ package com.sandy.common.ui;
 
 import java.awt.BorderLayout ;
 import java.awt.Color ;
+import java.awt.Point ;
 import java.awt.Rectangle ;
 import java.awt.geom.AffineTransform ;
 import java.awt.image.AffineTransformOp ;
@@ -26,6 +27,7 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
     
     public interface ScalableImagePanelListener {
         public void subImageSelected( BufferedImage image, int selectionModifier ) ;
+        public void subImageBoundResized( Point anchor, Point hook ) ;
     }
 
     private static final long serialVersionUID = 1L ;
@@ -62,6 +64,17 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
             BufferedImage subImage = curImg.getSubimage( rect.x, rect.y, rect.width, rect.height ) ;
             for( ScalableImagePanelListener l : listeners ) {
                 l.subImageSelected( subImage, selectionModifier );
+            }
+        }
+        catch( RasterFormatException e ) {
+            // Ignore
+        }
+    }
+    
+    public void subImageBoundResized( Point dragAnchor, Point curPt ) {
+        try {
+            for( ScalableImagePanelListener l : listeners ) {
+                l.subImageBoundResized( dragAnchor, curPt );
             }
         }
         catch( RasterFormatException e ) {
@@ -142,6 +155,10 @@ public class ScalableImagePanel extends JPanel implements ChangeListener {
                 slider.setValue( newVal ) ;
             }
         }
+    }
+    
+    public void setToolTipText( String text ) {
+        this.imgLabel.setToolTipText( text ) ;
     }
     
     private BufferedImage getScaledImage() {

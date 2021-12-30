@@ -257,6 +257,7 @@ public class DrawingCanvas extends JLabel {
                     case DRAG_CREATE:
                     case DRAG_RESIZE:
                         selectedShape.resize( dragAnchor, curPt ) ;
+                        parent.subImageBoundResized( dragAnchor, curPt ) ; 
                         break ;
                 }
             }
