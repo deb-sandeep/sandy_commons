@@ -55,7 +55,7 @@ public class XLSUtil {
                         cellValue = "XXX" ;
                         break ;
                 }
-                cellValues.add( cellValue.trim() ) ;
+                cellValues.add( cellValue ) ;
             }
         }
         return cellValues ;

@@ -19,11 +19,19 @@ public class XLSRow {
     }
     
     public String getCellValue( int index ) {
+        return cellValues.get( index ).trim() ;
+    }
+    
+    public String getRawCellValue( int index ) {
         return cellValues.get( index ) ;
     }
     
     public String getCellValue( String colName ) {
         return getCellValue( config.getColIndex( colName ) ) ;
+    }
+    
+    public String getRawCellValue( String colName ) {
+        return getRawCellValue( config.getColIndex( colName ) ) ;
     }
     
     public String toString() {
