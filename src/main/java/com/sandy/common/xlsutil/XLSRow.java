@@ -4,6 +4,8 @@ import java.util.List ;
 
 import org.apache.commons.lang.StringUtils ;
 
+import com.sandy.common.util.StringUtil ;
+
 public class XLSRow {
     
     private XLSSheetConfig config = null ;
@@ -19,7 +21,8 @@ public class XLSRow {
     }
     
     public String getCellValue( int index ) {
-        return cellValues.get( index ).trim() ;
+        String cellVal = cellValues.get( index ) ;
+        return StringUtil.isNotEmptyOrNull( cellVal ) ? cellVal.trim() : "" ;
     }
     
     public String getRawCellValue( int index ) {
@@ -27,7 +30,8 @@ public class XLSRow {
     }
     
     public String getCellValue( String colName ) {
-        return getCellValue( config.getColIndex( colName ) ) ;
+        String cellVal = cellValues.get( config.getColIndex( colName ) ) ;
+        return StringUtil.isNotEmptyOrNull( cellVal ) ? cellVal.trim() : "" ;
     }
     
     public String getRawCellValue( String colName ) {
@@ -38,10 +42,10 @@ public class XLSRow {
         StringBuilder buffer = new StringBuilder() ;
         for( int i=0; i<cellValues.size()-1; i++ ) {
             int colSize = this.config.getColSize( i ) ;
-            buffer.append( StringUtils.rightPad( cellValues.get( i ), colSize ) ) 
+            buffer.append( StringUtils.rightPad( getCellValue( i ), colSize ) ) 
                   .append( " | " ) ;
         }
-        buffer.append( cellValues.get( cellValues.size()-1 ) ) ;
+        buffer.append( getCellValue( cellValues.size()-1 ) ) ;
         return buffer.toString() ;
     }
 }

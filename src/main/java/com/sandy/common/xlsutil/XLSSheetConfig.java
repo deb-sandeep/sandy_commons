@@ -47,10 +47,8 @@ public class XLSSheetConfig {
     void updateColSize( XLSRow row ) {
         for( int i=0; i<this.numCols; i++ ) {
             String val = row.getCellValue( i ) ;
-            if( val != null ) {
-                if( val.length() > this.colSizes.get( i ) ) {
-                    this.colSizes.set( i, val.length() ) ;
-                }
+            if( val.length() > this.colSizes.get( i ) ) {
+                this.colSizes.set( i, val.length() ) ;
             }
         }
     }
